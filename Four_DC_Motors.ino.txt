@@ -1,0 +1,74 @@
+#define M1_IN1 2
+#define M1_IN2 3
+#define M2_IN1 4
+#define M2_IN2 5
+#define M3_IN1 6
+#define M3_IN2 7
+#define M4_IN1 8
+#define M4_IN2 9
+
+void setup() {
+  int pins[] = {M1_IN1, M1_IN2, M2_IN1, M2_IN2,
+                M3_IN1, M3_IN2, M4_IN1, M4_IN2};
+  for (int i = 0; i < 8; i++) {
+    pinMode(pins[i], OUTPUT);
+  }
+}
+
+void allForward() {
+  digitalWrite(M1_IN1, HIGH); digitalWrite(M1_IN2, LOW);
+  digitalWrite(M2_IN1, HIGH); digitalWrite(M2_IN2, LOW);
+  digitalWrite(M3_IN1, HIGH); digitalWrite(M3_IN2, LOW);
+  digitalWrite(M4_IN1, HIGH); digitalWrite(M4_IN2, LOW);
+}
+
+void allBackward() {
+  digitalWrite(M1_IN1, LOW); digitalWrite(M1_IN2, HIGH);
+  digitalWrite(M2_IN1, LOW); digitalWrite(M2_IN2, HIGH);
+  digitalWrite(M3_IN1, LOW); digitalWrite(M3_IN2, HIGH);
+  digitalWrite(M4_IN1, LOW); digitalWrite(M4_IN2, HIGH);
+}
+
+void turnPattern1() {
+  digitalWrite(M1_IN1, HIGH); digitalWrite(M1_IN2, LOW);
+  digitalWrite(M2_IN1, LOW);  digitalWrite(M2_IN2, HIGH);
+  digitalWrite(M3_IN1, HIGH); digitalWrite(M3_IN2, LOW);
+  digitalWrite(M4_IN1, LOW);  digitalWrite(M4_IN2, HIGH);
+}
+
+void turnPattern2() {
+  digitalWrite(M1_IN1, LOW);  digitalWrite(M1_IN2, HIGH);
+  digitalWrite(M2_IN1, HIGH); digitalWrite(M2_IN2, LOW);
+  digitalWrite(M3_IN1, LOW);  digitalWrite(M3_IN2, HIGH);
+  digitalWrite(M4_IN1, HIGH); digitalWrite(M4_IN2, LOW);
+}
+
+void stopAll() {
+  digitalWrite(M1_IN1, LOW); digitalWrite(M1_IN2, LOW);
+  digitalWrite(M2_IN1, LOW); digitalWrite(M2_IN2, LOW);
+  digitalWrite(M3_IN1, LOW); digitalWrite(M3_IN2, LOW);
+  digitalWrite(M4_IN1, LOW); digitalWrite(M4_IN2, LOW);
+}
+
+void loop() {
+  allForward();
+  delay(30000);
+
+  allBackward();
+  delay(60000);
+
+  unsigned long startTime = millis();
+  bool toggle = true;
+  while (millis() - startTime < 60000) {
+    if (toggle) {
+      turnPattern1();
+    } else {
+      turnPattern2();
+    }
+    toggle = !toggle;
+    delay(10000);
+  }
+
+  stopAll();
+  while (true);
+}
